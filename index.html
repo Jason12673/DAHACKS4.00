@@ -1,0 +1,340 @@
+/* ==================================== */
+/* 1. 基础重置与全局样式 */
+/* ==================================== */
+body {
+    font-family: 'Arial', sans-serif; /* 假设使用 Arial 或类似的无衬线字体 */
+    background-color: #f4f6f9; /* 页面背景色 */
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+/* ==================================== */
+/* 2. 顶部导航/头部区域 (Header) */
+/* ==================================== */
+.header-container {
+    /* 柔和的浅蓝色渐变背景 */
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    padding: 20px;
+    padding-bottom: 40px; /* 增加底部填充，为搜索栏腾出空间 */
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 返回按钮和用户图标的通用样式 */
+.back-button, .profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    color: #4facfe; /* 假设箭头/图标颜色 */
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* ==================================== */
+/* 3. 搜索栏 (Search Bar) */
+/* ==================================== */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 8px 15px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-grow: 1; /* 占据中间所有可用空间 */
+    margin: 0 10px; /* 左右间距 */
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    padding-left: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+/* ==================================== */
+/* 4. 标签/导航栏 (Tabs) */
+/* ==================================== */
+.tab-navigation {
+    display: flex;
+    justify-content: flex-start; /* 靠左对齐 */
+    padding: 10px 20px;
+    margin-top: -20px; /* 向上微调，视觉上贴近头部区域 */
+    gap: 15px; /* 按钮之间的间距 */
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 8px 15px;
+    color: #777;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+/* 选中的标签按钮样式 */
+.tab-button.active {
+    background-color: #4facfe;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(79, 172, 254, 0.4);
+    font-weight: bold;
+}
+
+/* ==================================== */
+/* 5. 标签内容切换样式 (Content Switching) */
+/* ==================================== */
+
+/* 默认隐藏所有内容区域 (用于JS切换) */
+.tab-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 仅显示带有 active 类的内容区域 */
+.tab-content.active {
+    display: block; 
+    opacity: 1;
+}
+
+/* ==================================== */
+/* 6. 技能卡片网格布局 (Skill Cards Grid) */
+/* ==================================== */
+.section-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    padding: 0 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.skill-cards-grid {
+    display: grid;
+    /* 创建响应式网格，每列最小宽度 150px */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.skill-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px); /* 悬停时的轻微抬升效果 */
+}
+
+.card-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.difficulty-label {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+/* 难度星级样式 (使用 unicode 星星字符或图标字体) */
+.difficulty-stars {
+    color: #ffd700; /* 金色 */
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    padding-top: 0;
+}
+
+/* 蓝色的 "+" 按钮 */
+.add-button {
+    width: 35px;
+    height: 35px;
+    background-color: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.8em;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(79, 172, 254, 0.4);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics App UI</title>
+    <link href='style.css' rel='stylesheet'>
+    <link href='index.js' rel='stylesheet'>
+    
+   
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-top">
+            <div class="logo-stats">
+                <i class='bx bx-spark'></i>
+                <span>Statistics</span>
+            </div>
+            <div class="notification">
+                <i class='bx bxs-bell'></i>
+                <span class="notification-badge"></span>
+            </div>
+            <div class="user-icon">
+                <i class='bx bxs-user'></i>
+            </div>
+        </div>
+        <div class="search-container">
+            <i class='bx bx-search'></i>
+            <input type="text" class="search-bar" placeholder="Search...">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="tabs">
+            <button class="tab-button active" data-tab="all">All</button>
+            <button class="tab-button" data-tab="skills">Skills</button>
+            <button class="tab-button" data-tab="friends">Friends</button>
+        </div>
+
+        <div id="all-content" class="tab-content active">
+            <h2 class="section-title">Skill Up</h2>
+            <div class="card-scroll-container">
+                <div class="skill-card">
+                    <div class="skill-card-image">
+                        <img src="https://via.placeholder.com/180x100?text=Crochet+Image" alt="Crochet">
+                    </div>
+                    <div class="skill-card-content">
+                        <h3>Crochet</h3>
+                        <div class="difficulty">Difficulty</div>
+                        <div class="rating">
+                            <div><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i></div>
+                            <div class="add-button"><i class='bx bx-plus'></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-card-image">
+                        <img src="https://via.placeholder.com/180x100?text=Running+Group" alt="Running Group">
+                    </div>
+                    <div class="skill-card-content">
+                        <h3>100,000 steps in 10 days</h3>
+                        <div class="difficulty">Difficulty</div>
+                        <div class="rating">
+                            <div><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star'></i></div>
+                            <div class="add-button"><i class='bx bx-plus'></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-card-image">
+                        <img src="https://via.placeholder.com/180x100?text=New+Skill" alt="New Skill">
+                    </div>
+                    <div class="skill-card-content">
+                        <h3>Learn a new skill</h3>
+                        <div class="difficulty">Difficulty</div>
+                        <div class="rating">
+                            <div><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i></div>
+                            <div class="add-button"><i class='bx bx-plus'></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="next-arrow"></div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top: 20px;">People you may know</h2>
+            <div class="card-scroll-container">
+                <div class="people-card">
+                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Kyle+Brown" alt="Kyle Brown">
+                    <div class="people-card-content">
+                        <h3>Kyle Brown</h3>
+                        <p><span>3+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
+                    </div>
+                </div>
+                <div class="people-card">
+                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Felisha+L" alt="Felisha L">
+                    <div class="people-card-content">
+                        <h3>Felisha L</h3>
+                        <p><span>1+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
+                    </div>
+                </div>
+                <div class="people-card">
+                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Jane+D" alt="Jane D">
+                    <div class="people-card-content">
+                        <h3>Jane D</h3>
+                        <p><span>2+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
+                    </div>
+                </div>
+                <div class="next-arrow"></div>
+            </div>
+        </div> 
+        <div id="skills-content" class="tab-content hidden">
+            <h2 class="section-title">Your Active Skills</h2>
+            <p>Content for the **Skills** tab will go here.</p>
+            </div>
+
+        <div id="friends-content" class="tab-content hidden">
+            <h2 class="section-title">Friend Leaderboards</h2>
+            <p>Content for the **Friends** tab will go here.</p>
+            </div>
+
+    </div>
+
+    <h2 class="section-title">Skill Up</h2>
+        <div class="card-scroll-container skill-list"> </div>
+        
+        <h2 class="section-title" style="margin-top: 20px;">People you may know</h2>
+        <div class="card-scroll-container people-list"> </div>
+
+    </div>
+</body>
+</html>
+
+
