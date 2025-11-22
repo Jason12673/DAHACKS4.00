@@ -1,340 +1,314 @@
-/* ==================================== */
-/* 1. 基础重置与全局样式 */
-/* ==================================== */
-body {
-    font-family: 'Arial', sans-serif; /* 假设使用 Arial 或类似的无衬线字体 */
-    background-color: #f4f6f9; /* 页面背景色 */
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-}
-
-/* ==================================== */
-/* 2. 顶部导航/头部区域 (Header) */
-/* ==================================== */
-.header-container {
-    /* 柔和的浅蓝色渐变背景 */
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-    padding: 20px;
-    padding-bottom: 40px; /* 增加底部填充，为搜索栏腾出空间 */
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* 返回按钮和用户图标的通用样式 */
-.back-button, .profile-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: #4facfe; /* 假设箭头/图标颜色 */
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-/* ==================================== */
-/* 3. 搜索栏 (Search Bar) */
-/* ==================================== */
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    padding: 8px 15px;
-    border-radius: 25px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-grow: 1; /* 占据中间所有可用空间 */
-    margin: 0 10px; /* 左右间距 */
-}
-
-.search-input {
-    border: none;
-    outline: none;
-    flex-grow: 1;
-    padding-left: 10px;
-    font-size: 1em;
-    color: #333;
-}
-
-/* ==================================== */
-/* 4. 标签/导航栏 (Tabs) */
-/* ==================================== */
-.tab-navigation {
-    display: flex;
-    justify-content: flex-start; /* 靠左对齐 */
-    padding: 10px 20px;
-    margin-top: -20px; /* 向上微调，视觉上贴近头部区域 */
-    gap: 15px; /* 按钮之间的间距 */
-}
-
-.tab-button {
-    background: none;
-    border: none;
-    padding: 8px 15px;
-    color: #777;
-    font-weight: 500;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: all 0.3s ease;
-}
-
-/* 选中的标签按钮样式 */
-.tab-button.active {
-    background-color: #4facfe;
-    color: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(79, 172, 254, 0.4);
-    font-weight: bold;
-}
-
-/* ==================================== */
-/* 5. 标签内容切换样式 (Content Switching) */
-/* ==================================== */
-
-/* 默认隐藏所有内容区域 (用于JS切换) */
-.tab-content {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* 仅显示带有 active 类的内容区域 */
-.tab-content.active {
-    display: block; 
-    opacity: 1;
-}
-
-/* ==================================== */
-/* 6. 技能卡片网格布局 (Skill Cards Grid) */
-/* ==================================== */
-.section-title {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #333;
-    padding: 0 20px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.skill-cards-grid {
-    display: grid;
-    /* 创建响应式网格，每列最小宽度 150px */
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.skill-card {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s;
-}
-
-.skill-card:hover {
-    transform: translateY(-5px); /* 悬停时的轻微抬升效果 */
-}
-
-.card-image {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    display: block;
-}
-
-.card-details {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.card-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.difficulty-label {
-    font-size: 0.9em;
-    color: #777;
-    margin-bottom: 5px;
-}
-
-/* 难度星级样式 (使用 unicode 星星字符或图标字体) */
-.difficulty-stars {
-    color: #ffd700; /* 金色 */
-    font-size: 1.2em;
-    display: flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
-    padding-top: 0;
-}
-
-/* 蓝色的 "+" 按钮 */
-.add-button {
-    width: 35px;
-    height: 35px;
-    background-color: #4facfe;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.8em;
-    line-height: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(79, 172, 254, 0.4);
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics App UI</title>
-    <link href='style.css' rel='stylesheet'>
-    <link href='index.js' rel='stylesheet'>
-    
-   
+    <title>Skill Up - 个人数据追踪</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="index.js">
 </head>
+    </head>
 <body>
-
-    <div class="header-container">
-        <div class="header-top">
-            <div class="logo-stats">
-                <i class='bx bx-spark'></i>
-                <span>Statistics</span>
-            </div>
-            <div class="notification">
-                <i class='bx bxs-bell'></i>
-                <span class="notification-badge"></span>
-            </div>
-            <div class="user-icon">
-                <i class='bx bxs-user'></i>
-            </div>
-        </div>
-        <div class="search-container">
-            <i class='bx bx-search'></i>
-            <input type="text" class="search-bar" placeholder="Search...">
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div class="tabs">
-            <button class="tab-button active" data-tab="all">All</button>
-            <button class="tab-button" data-tab="skills">Skills</button>
-            <button class="tab-button" data-tab="friends">Friends</button>
-        </div>
-
-        <div id="all-content" class="tab-content active">
-            <h2 class="section-title">Skill Up</h2>
-            <div class="card-scroll-container">
-                <div class="skill-card">
-                    <div class="skill-card-image">
-                        <img src="https://via.placeholder.com/180x100?text=Crochet+Image" alt="Crochet">
+    <div id="root-frame">
+        <div id="app" class="app-content visible">
+            <div class="top-section">
+                <div class="top-nav-container">
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="stats-header-btn text-lg font-bold text-gray-700 flex items-center">
+                            <i class='bx bxs-star-half mr-2 text-xl'></i> <span id="user-score">Score: 0</span>
+                        </div>
+                        <div class="flex gap-3 items-center">
+                            
+                            <!-- 社区聊天图标 - 添加了相对定位和 badge -->
+                            <div class="relative">
+                                <div id="community-chat-btn" class="p-2 bg-white rounded-full cursor-pointer shadow-md" title="Community Chat" onclick="openChatModal('community')">
+                                    <i class='bx bxs-message-dots text-xl text-blue-500'></i> 
+                                </div>
+                                <div id="chat-notification-badge" class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white hidden"></div>
+                            </div>
+                            
+                            <!-- 通知图标 - NOW FUNCTIONAL -->
+                            <div class="notification-wrapper">
+                                <div id="bell-notification-btn" class="p-2 bg-white rounded-full cursor-pointer shadow-md" title="System Notifications" onclick="openNotificationModal()">
+                                    <i class='bx bx-bell text-xl text-gray-500'></i> 
+                                </div>
+                                <div id="bell-notification-badge" class="notification-count hidden">0</div>
+                            </div>
+                            
+                            <!-- 用户头像 -->
+                            <div class="user-avatar-top cursor-pointer" onclick="openPage('stats-page')">
+                                <i class='bx bxs-user'></i>
+                            </div>
+                        </div>
                     </div>
-                    <div class="skill-card-content">
-                        <h3>Crochet</h3>
-                        <div class="difficulty">Difficulty</div>
-                        <div class="rating">
-                            <div><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i></div>
-                            <div class="add-button"><i class='bx bx-plus'></i></div>
+                    <div class="search-pill bg-white rounded-full p-4 flex items-center shadow-md max-w-lg mx-auto">
+                        <i class='bx bx-search text-gray-400 text-xl'></i>
+                        <input type="text" id="search-input" placeholder="Search skills, friends or groups..." 
+                               class="border-none outline-none ml-4 w-full text-lg" onkeyup="handleSearch()">
+                    </div>
+                    <div id="uid-display" class="text-center text-xs text-gray-600 mt-2 font-mono">Loading User...</div>
+                </div>
+            </div>
+
+            <div class="nav-tabs flex justify-center gap-6 -mt-5 relative z-10">
+                <button class="nav-tab p-3 px-6 font-semibold cursor-pointer text-gray-500 rounded-full transition-all duration-300" id="tab-skills" onclick="switchTab('skills')">Skills</button>
+                <button class="nav-tab p-3 px-6 font-semibold cursor-pointer text-gray-500 rounded-full transition-all duration-300" id="tab-friends" onclick="switchTab('friends')">Friends</button>
+                <button class="nav-tab p-3 px-6 font-semibold cursor-pointer text-gray-500 rounded-full transition-all duration-300" id="tab-groups" onclick="switchTab('groups')">Groups</button> <!-- 新增 Groups 标签 -->
+                <button class="nav-tab p-3 px-6 font-semibold cursor-pointer text-gray-500 rounded-full transition-all duration-300" id="tab-leaderboard" onclick="switchTab('leaderboard')">Leaderboard</button>
+            </div>
+
+            <div class="content-area">
+                <div id="grid-container" class="grid-container grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+                    <!-- Skills will be injected here -->
+                </div>
+                
+                <!-- 好友列表容器 (Friends List Container) - 包含 A-Z 索引的更新结构 -->
+                <div id="friends-list-container" class="hidden relative">
+                    <!-- A-Z Index Bar (顶部水平滚动条，随内容滚动 - 新增) -->
+                    <!-- sticky top-0 确保它在屏幕上保持可见，z-20 确保它位于字母标题之上 -->
+                    <div id="alphabet-index-header" class="flex items-center space-x-1 p-2 bg-white rounded-xl shadow-md overflow-x-auto sticky top-0 z-20 mb-4 border border-gray-100">
+                        <!-- Index links injected here by JS -->
+                    </div>
+                    
+                    <!-- 实际的好友列表 -->
+                    <div id="friends-list-wrapper">
+                        <div id="friends-list" class="flex flex-col gap-3">
+                            <!-- Friends/Alphabet sections injected here -->
                         </div>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-card-image">
-                        <img src="https://via.placeholder.com/180x100?text=Running+Group" alt="Running Group">
+                
+                <!-- Groups Content Area - 新增 -->
+                <div id="groups-list-container" class="hidden">
+                    <button class="btn-main mb-6 flex items-center px-6 py-3 text-sm" onclick="openPage('create-group-modal')">
+                        <i class='bx bx-plus mr-2'></i> Create New Group
+                    </button>
+                    <div id="groups-list" class="flex flex-col gap-3">
+                        <!-- Groups injected here -->
                     </div>
-                    <div class="skill-card-content">
-                        <h3>100,000 steps in 10 days</h3>
-                        <div class="difficulty">Difficulty</div>
-                        <div class="rating">
-                            <div><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star'></i></div>
-                            <div class="add-button"><i class='bx bx-plus'></i></div>
+                </div>
+                
+                <!-- Leaderboard Content Area - UPDATED -->
+                <div id="leaderboard-content" class="hidden">
+                    <!-- Leaderboard Tabs -->
+                    <div class="flex justify-center border-b mb-6 bg-white rounded-xl shadow-md p-1">
+                        <button class="lb-tab-btn p-3 px-6 font-semibold text-gray-700 border-b-2 border-transparent transition-colors duration-200" data-view="my-score" onclick="showLeaderboard('my-score')">My Score</button>
+                        <button class="lb-tab-btn p-3 px-6 font-semibold text-gray-700 border-b-2 border-transparent transition-colors duration-200" data-view="friends-lb" onclick="showLeaderboard('friends-lb')">Friends</button>
+                        <button class="lb-tab-btn p-3 px-6 font-semibold text-gray-700 border-b-2 border-transparent transition-colors duration-200" data-view="global-lb" onclick="showLeaderboard('global-lb')">Global</button>
+                    </div>
+
+                    <!-- Leaderboard Content Views -->
+                    <div id="leaderboard-views">
+                        <!-- My Score View -->
+                        <div id="lb-my-score" class="lb-view">
+                            <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">Your Current Mastery</h3>
+                                <p class="text-5xl font-extrabold text-blue-600" id="my-leaderboard-score">0</p>
+                                <p class="text-sm text-gray-500 mt-2">Total Score accumulated from all tracked skills.</p>
+                                <p class="text-xs text-gray-400 mt-2">Score = SUM(Progress Logs × Difficulty Stars)</p>
+                            </div>
+                        </div>
+
+                        <!-- Friends Leaderboard View -->
+                        <div id="lb-friends-lb" class="lb-view hidden">
+                            <div id="friends-leaderboard-list" class="space-y-3">
+                                <!-- Friends ranking injected here -->
+                            </div>
+                            <p id="no-friends-for-lb" class="text-center text-gray-500 p-4 hidden">Add friends in the Friends tab to see their scores here.</p>
+                        </div>
+
+                        <!-- Global Leaderboard View -->
+                        <div id="lb-global-lb" class="lb-view hidden">
+                            <div id="global-leaderboard-list" class="space-y-3">
+                                <!-- Global ranking injected here -->
+                            </div>
+                            <p id="loading-global-lb" class="text-center text-blue-500 p-4">Loading global rankings...</p>
                         </div>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-card-image">
-                        <img src="https://via.placeholder.com/180x100?text=New+Skill" alt="New Skill">
-                    </div>
-                    <div class="skill-card-content">
-                        <h3>Learn a new skill</h3>
-                        <div class="difficulty">Difficulty</div>
-                        <div class="rating">
-                            <div><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i></div>
-                            <div class="add-button"><i class='bx bx-plus'></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="next-arrow"></div>
-            </div>
-            
-            <h2 class="section-title" style="margin-top: 20px;">People you may know</h2>
-            <div class="card-scroll-container">
-                <div class="people-card">
-                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Kyle+Brown" alt="Kyle Brown">
-                    <div class="people-card-content">
-                        <h3>Kyle Brown</h3>
-                        <p><span>3+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
-                    </div>
-                </div>
-                <div class="people-card">
-                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Felisha+L" alt="Felisha L">
-                    <div class="people-card-content">
-                        <h3>Felisha L</h3>
-                        <p><span>1+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
-                    </div>
-                </div>
-                <div class="people-card">
-                    <img class="people-card-bg-image" src="https://via.placeholder.com/160x200?text=Jane+D" alt="Jane D">
-                    <div class="people-card-content">
-                        <h3>Jane D</h3>
-                        <p><span>2+ Mutuals</span><div class="add-button"><i class='bx bx-plus'></i></div></p>
-                    </div>
-                </div>
-                <div class="next-arrow"></div>
-            </div>
-        </div> 
-        <div id="skills-content" class="tab-content hidden">
-            <h2 class="section-title">Your Active Skills</h2>
-            <p>Content for the **Skills** tab will go here.</p>
-            </div>
+                
+                <div id="no-result" class="text-center text-gray-500 p-4 hidden">No results found.</div>
 
-        <div id="friends-content" class="tab-content hidden">
-            <h2 class="section-title">Friend Leaderboards</h2>
-            <p>Content for the **Friends** tab will go here.</p>
+                <div class="flex justify-center mt-8">
+                    <button id="add-new-btn" class="btn-main flex items-center px-8 py-3 text-lg" onclick="openAddModal()">
+                        <i class='bx bx-plus-circle mr-2'></i> Add New
+                    </button>
+                </div>
             </div>
+        </div>
 
-    </div>
+        <!-- Skill Detail Modal (Simplified) -->
+        <div id="skill-detail-page" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('skill-detail-page')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title" id="sd-title">Skill Title</div>
+                    <div class="user-avatar-top"><i class='bx bxs-user'></i></div>
+                </div>
+                <div class="overflow-y-auto p-5">
+                    <div class="text-center mb-4">
+                        <div id="sd-stars" class="text-xl text-yellow-500 mb-2"></div>
+                        <p id="sd-desc" class="text-gray-700"></p>
+                    </div>
+                    <h3 class="font-bold text-lg border-b pb-2 mb-3 flex items-center">
+                        <i class='bx bx-tachometer mr-2 text-blue-500'></i> Progress Tracking
+                    </h3>
+                    
+                    <!-- Progress Stats and Logging Input -->
+                    <div id="sd-progress" class="flex flex-col gap-3">
+                        <!-- Content dynamically inserted by openSkillDetail -->
+                    </div>
 
-    <h2 class="section-title">Skill Up</h2>
-        <div class="card-scroll-container skill-list"> </div>
+                    <div class="text-center mt-5">
+                        <button class="bg-red-500 text-white px-4 py-2 rounded-lg" onclick="showConfirmationModal(currentSkillDocId, document.getElementById('sd-title').innerText)">Delete Skill</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
-        <h2 class="section-title" style="margin-top: 20px;">People you may know</h2>
-        <div class="card-scroll-container people-list"> </div>
+        <!-- Add New Item Modal (For Skills and Friends) -->
+        <div id="add-new-modal" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('add-new-modal')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title" id="add-modal-title">Add New Skill</div>
+                    <div class="user-avatar-top"><i class='bx bx-bulb'></i></div>
+                </div>
+                
+                <form id="add-form" class="p-6 overflow-y-auto">
+                    <!-- Common Fields -->
+                    <label class="block mb-2 font-semibold" for="item-title">Title</label>
+                    <input type="text" id="item-title" class="input-style" placeholder="e.g., Learn Python" required>
 
-    </div>
+                    <label class="block mb-2 font-semibold" for="item-desc">Description (or Subtitle)</label>
+                    <textarea id="item-desc" class="input-style" rows="3" placeholder="Describe the goal or person..."></textarea>
+                    
+                    <!-- Skill Specific Fields -->
+                    <div id="skill-fields">
+                        <label class="block mb-2 font-semibold" for="item-stars">Difficulty (1-5)</label>
+                        <input type="number" id="item-stars" class="input-style" min="1" max="5" value="3" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-main w-full mt-4" id="save-item-btn">
+                        Save Item
+                    </button>
+                    <p id="add-form-error" class="text-red-500 mt-2 hidden">Error saving data.</p>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Create Group Modal - 新增 -->
+        <div id="create-group-modal" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('create-group-modal')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title">Create Private Group</div>
+                    <div class="user-avatar-top"><i class='bx bxs-group'></i></div>
+                </div>
+                
+                <form id="create-group-form" class="p-6 overflow-y-auto">
+                    <label class="block mb-2 font-semibold" for="group-name">Group Name</label>
+                    <input type="text" id="group-name" class="input-style" placeholder="e.g., Python Study Buddies" required>
+                    
+                    <label class="block mb-2 font-semibold mt-4">Add Members (Select Friends)</label>
+                    <div id="friend-checkbox-list" class="space-y-2 border p-3 rounded-lg bg-gray-50" style="max-height: 200px; overflow-y: auto;">
+                        <p class="text-sm text-gray-500">No friends added. Add friends in the 'Friends' tab first.</p>
+                        <!-- Checkboxes injected here -->
+                    </div>
+
+                    <button type="submit" class="btn-main w-full mt-6">
+                        Create Group
+                    </button>
+                    <p id="group-form-error" class="text-red-500 mt-2 hidden">Error creating group.</p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Notification Modal - NEW -->
+        <div id="notification-modal" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('notification-modal')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title">Notifications</div>
+                    <div class="user-avatar-top"><i class='bx bx-bell'></i></div>
+                </div>
+                <div class="overflow-y-auto p-5 flex-1 bg-gray-50">
+                    <div id="notification-list" class="space-y-4">
+                        <!-- Notifications injected here -->
+                        <div class="text-center text-gray-500 p-4" id="no-notifications">No new activity.</div>
+                    </div>
+                </div>
+                <div class="p-3 bg-white border-t flex-shrink-0">
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg w-full font-semibold hover:bg-gray-300" onclick="clearNotifications()">
+                        Mark All As Read
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Simple Profile/Stats Page (Simplified) -->
+        <div id="stats-page" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('stats-page')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title">My Dashboard</div>
+                    <div class="user-avatar-top"><i class='bx bxs-user'></i></div>
+                </div>
+                <div class="overflow-y-auto p-5">
+                    <h2 class="text-2xl font-bold text-center mb-4">User Statistics</h2>
+                    <p class="text-center text-gray-600 mb-6">Your data is stored privately using your unique ID.</p>
+                    <div class="bg-gray-100 p-4 rounded-xl shadow-inner">
+                        <p class="font-mono text-sm break-all"><strong>User ID:</strong> <span id="auth-uid">N/A</span></p>
+                        <p class="font-mono text-sm break-all mt-2"><strong>App ID:</strong> <span id="app-uid">N/A</span></p>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <h3 class="text-xl font-semibold text-green-600">Total Score: <span id="stats-total-score">0</span></h3>
+                        <p class="text-gray-500">Skills Tracked: <span id="stats-skill-count">0</span></p>
+                        <p class="text-gray-500">Friends Added: <span id="stats-friend-count">0</span></p>
+                        <p class="text-gray-500">Groups Created: <span id="stats-group-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Chat Modal - 通用聊天窗口 -->
+        <div id="group-chat-modal" class="fullscreen-modal">
+            <div class="modal-content-wrapper">
+                <div class="modal-header-cyan">
+                    <div class="back-circle" onclick="closePage('group-chat-modal')"><i class='bx bx-left-arrow-alt'></i></div>
+                    <div class="page-title" id="chat-title">Community Chat</div>
+                    <div class="user-avatar-top"><i class='bx bxs-group'></i></div>
+                </div>
+                
+                <div id="chat-messages-container" class="overflow-y-auto p-5 flex-1 space-y-3 bg-gray-50 chat-scroll">
+                    <!-- Messages injected here -->
+                </div>
+
+                <div class="p-3 bg-white border-t flex items-center flex-shrink-0">
+                    <input type="text" id="chat-input" class="input-style flex-1 m-0 mr-3" placeholder="Type your message..." onkeyup="checkChatEnter(event)">
+                    <button id="send-btn" class="bg-blue-500 text-white p-3 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-600 transition" onclick="sendMessage()">
+                        <i class='bx bxs-send text-xl'></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Confirmation Modal - 确认删除模态框 (新增) -->
+        <div id="confirmation-modal" class="fullscreen-modal">
+            <div class="modal-content-wrapper p-6 text-center">
+                <div class="text-3xl text-red-500 mb-4"><i class='bx bxs-error-circle'></i></div>
+                <h3 class="text-xl font-bold mb-3" id="confirm-title">Confirm Deletion</h3>
+                <p class="text-gray-600 mb-6" id="confirm-message">Are you sure you want to delete this item?</p>
+                <div class="flex justify-center gap-4">
+                    <button class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-400" onclick="closePage('confirmation-modal')">Cancel</button>
+                    <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700" id="confirm-action-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div> 
 </body>
 </html>
-
-
