@@ -1,6 +1,6 @@
 /**
- * main.js
- * * 动态创建和渲染应用界面，模仿提供的HTML结构和样式。
+ * main.js — FULL VERSION WITH BACKEND INTEGRATION
+ * Dynamic UI + fetches users from backend API.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.style.fontFamily = 'sans-serif';
     body.style.backgroundColor = '#f4f7f6';
 
-    // 1. 创建并渲染 Header 区域
+    // 1. HEADER
     const headerContainer = document.createElement('div');
     headerContainer.className = 'header-container';
     headerContainer.style.background = 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)';
@@ -18,67 +18,90 @@ document.addEventListener('DOMContentLoaded', () => {
     headerContainer.style.borderBottomRightRadius = '35px';
     headerContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.08)';
 
-    // Header Top (Logo, Notif, User Icon)
     const headerTop = document.createElement('div');
-    headerTop.className = 'header-top';
     headerTop.style.display = 'flex';
     headerTop.style.justifyContent = 'space-between';
     headerTop.style.alignItems = 'center';
 
-    const logoStats = createLogo('bx-spark', 'Statistics');
-    const notification = createIconWithBadge('bxs-bell');
-    const userIcon = createProfileIcon('bxs-user');
-
-    headerTop.appendChild(logoStats);
-    headerTop.appendChild(notification);
-    headerTop.appendChild(userIcon);
-    
-    // Search Container
-    const searchContainer = createSearchBar();
+    headerTop.appendChild(createLogo('bx-spark', 'Statistics'));
+    headerTop.appendChild(createIconWithBadge('bxs-bell'));
+    headerTop.appendChild(createProfileIcon('bxs-user'));
 
     headerContainer.appendChild(headerTop);
-    headerContainer.appendChild(searchContainer);
+    headerContainer.appendChild(createSearchBar());
     body.appendChild(headerContainer);
 
-    // 2. 创建并渲染 Main Content
+    // 2. MAIN CONTENT
     const mainContent = document.createElement('div');
-    mainContent.className = 'main-content';
     mainContent.style.padding = '0 20px 20px 20px';
-    mainContent.style.marginTop = '-25px'; // 部分覆盖在 header 上
+    mainContent.style.marginTop = '-25px';
 
-    // Tabs
     mainContent.appendChild(createTabs(['All', 'Skills', 'Friends']));
-
-    // Skill Up Section
     mainContent.appendChild(createSectionTitle('Skill Up'));
-    mainContent.appendChild(createSkillScrollContainer([
-        { title: 'Crochet', rating: 3, img: 'https://via.placeholder.com/180x100?text=Crochet+Image' },
-        { title: '100,000 steps in 10 days', rating: 4, img: 'https://via.placeholder.com/180x100?text=Running+Group' },
-        { title: 'Learn a new skill', rating: 0, img: 'https://via.placeholder.com/180x100?text=New+Skill' }
-    ]));
+    mainContent.appendChild(
+        createSkillScrollContainer([
+            { title: 'Crochet', rating: 3, img: 'https://via.placeholder.com/180x100?text=Crochet+Image' },
+            { title: '100,000 steps in 10 days', rating: 4, img: 'https://via.placeholder.com/180x100?text=Running+Group' },
+            { title: 'Learn a new skill', rating: 0, img: 'https://via.placeholder.com/180x100?text=New+Skill' }
+        ])
+    );
 
-    // People You May Know Section
     mainContent.appendChild(createSectionTitle('People you may know', '20px'));
-    mainContent.appendChild(createPeopleScrollContainer([
-        { name: 'Kyle Brown', mutuals: '3+', img: 'https://via.placeholder.com/160x200?text=Kyle+Brown' },
-        { name: 'Felisha L', mutuals: '1+', img: 'https://via.placeholder.com/160x200?text=Felisha+L' },
-        { name: 'Jane D', mutuals: '2+', img: 'https://via.placeholder.com/160x200?text=Jane+D' }
-    ]));
+    mainContent.appendChild(
+        createPeopleScrollContainer([
+            { name: 'Kyle Brown', mutuals: '3+', img: 'https://via.placeholder.com/160x200?text=Kyle+Brown' },
+            { name: 'Felisha L', mutuals: '1+', img: 'https://via.placeholder.com/160x200?text=Felisha+L' },
+            { name: 'Jane D', mutuals: '2+', img: 'https://via.placeholder.com/160x200?text=Jane+D' }
+        ])
+    );
 
     body.appendChild(mainContent);
+
+    // 3. BACKEND OUTPUT BOX
+    const backendBox = document.createElement('pre');
+    backendBox.id = "backend-output";
+    backendBox.style.background = '#fff';
+    backendBox.style.margin = '20px';
+    backendBox.style.padding = '20px';
+    backendBox.style.borderRadius = '10px';
+    backendBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+    backendBox.style.whiteSpace = 'pre-wrap';
+    backendBox.textContent = "Loading users from backend...";
+    body.appendChild(backendBox);
+
+    // 4. FETCH BACKEND DATA
+    loadUsersFromBackend();
 });
 
-// --- Helper Functions to build components ---
 
-/** 创建应用 Logo 和文字 */
+// =========================
+// BACKEND FETCH FUNCTION
+// =========================
+
+async function loadUsersFromBackend() {
+    const box = document.getElementById("backend-output");
+
+    try {
+        const response = await fetch("https://yaritza-overpowering-homely.ngrok-free.dev/api/users");
+        const data = await response.json();
+        box.textContent = JSON.stringify(data, null, 2);
+    } catch (err) {
+        box.textContent = "❌ Error loading users:\n" + err;
+    }
+}
+
+
+// =========================
+// UI COMPONENT HELPERS
+// =========================
+
 function createLogo(iconClass, text) {
-    const logoStats = document.createElement('div');
-    logoStats.className = 'logo-stats';
-    logoStats.style.display = 'flex';
-    logoStats.style.alignItems = 'center';
-    logoStats.style.fontSize = '1.5em';
-    logoStats.style.fontWeight = 'bold';
-    logoStats.style.color = '#112a4d';
+    const logo = document.createElement('div');
+    logo.style.display = 'flex';
+    logo.style.alignItems = 'center';
+    logo.style.fontSize = '1.5em';
+    logo.style.fontWeight = 'bold';
+    logo.style.color = '#112a4d';
 
     const icon = document.createElement('i');
     icon.className = `bx ${iconClass}`;
@@ -87,16 +110,14 @@ function createLogo(iconClass, text) {
     const span = document.createElement('span');
     span.textContent = text;
 
-    logoStats.appendChild(icon);
-    logoStats.appendChild(span);
-    return logoStats;
+    logo.appendChild(icon);
+    logo.appendChild(span);
+    return logo;
 }
 
-/** 创建带通知气泡的图标 */
 function createIconWithBadge(iconClass) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.style.position = 'relative';
+    const n = document.createElement('div');
+    n.style.position = 'relative';
 
     const icon = document.createElement('i');
     icon.className = `bx ${iconClass}`;
@@ -104,7 +125,6 @@ function createIconWithBadge(iconClass) {
     icon.style.color = '#fff';
 
     const badge = document.createElement('span');
-    badge.className = 'notification-badge';
     badge.style.position = 'absolute';
     badge.style.top = '0';
     badge.style.right = '0';
@@ -114,18 +134,16 @@ function createIconWithBadge(iconClass) {
     badge.style.backgroundColor = 'red';
     badge.style.border = '2px solid #c2e9fb';
 
-    notification.appendChild(icon);
-    notification.appendChild(badge);
-    return notification;
+    n.appendChild(icon);
+    n.appendChild(badge);
+    return n;
 }
 
-/** 创建用户图标 (右上角) */
 function createProfileIcon(iconClass) {
     const userIcon = document.createElement('div');
-    userIcon.className = 'user-icon';
     userIcon.style.width = '40px';
     userIcon.style.height = '40px';
-    userIcon.style.backgroundColor = '#fff';
+    userIcon.style.background = '#fff';
     userIcon.style.borderRadius = '50%';
     userIcon.style.display = 'flex';
     userIcon.style.justifyContent = 'center';
@@ -140,276 +158,209 @@ function createProfileIcon(iconClass) {
     return userIcon;
 }
 
-/** 创建搜索栏 */
 function createSearchBar() {
-    const searchContainer = document.createElement('div');
-    searchContainer.className = 'search-container';
-    searchContainer.style.display = 'flex';
-    searchContainer.style.alignItems = 'center';
-    searchContainer.style.backgroundColor = 'white';
-    searchContainer.style.padding = '8px 15px';
-    searchContainer.style.marginTop = '20px';
-    searchContainer.style.borderRadius = '25px';
-    searchContainer.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-    searchContainer.style.maxWidth = '100%';
+    const box = document.createElement('div');
+    box.style.display = 'flex';
+    box.style.alignItems = 'center';
+    box.style.background = 'white';
+    box.style.padding = '8px 15px';
+    box.style.marginTop = '20px';
+    box.style.borderRadius = '25px';
+    box.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
 
-    const searchIcon = document.createElement('i');
-    searchIcon.className = 'bx bx-search';
-    searchIcon.style.color = '#777';
-    searchIcon.style.marginRight = '10px';
+    const icon = document.createElement('i');
+    icon.className = 'bx bx-search';
+    icon.style.color = '#777';
+    icon.style.marginRight = '10px';
 
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.className = 'search-bar-input';
-    searchInput.placeholder = 'Search...';
-    searchInput.style.border = 'none';
-    searchInput.style.outline = 'none';
-    searchInput.style.flexGrow = '1';
-    searchInput.style.fontSize = '1em';
-    searchInput.style.padding = '0';
+    const input = document.createElement('input');
+    input.placeholder = 'Search...';
+    input.style.border = 'none';
+    input.style.outline = 'none';
+    input.style.flexGrow = '1';
 
-    searchContainer.appendChild(searchIcon);
-    searchContainer.appendChild(searchInput);
-    return searchContainer;
+    box.appendChild(icon);
+    box.appendChild(input);
+    return box;
 }
 
-/** 创建 Tab 导航栏 */
 function createTabs(names) {
     const tabs = document.createElement('div');
-    tabs.className = 'tabs';
     tabs.style.display = 'flex';
     tabs.style.gap = '10px';
     tabs.style.marginBottom = '20px';
 
-    names.forEach((name, index) => {
-        const button = document.createElement('button');
-        button.className = 'tab-button';
-        button.textContent = name;
-        button.style.border = 'none';
-        button.style.padding = '10px 20px';
-        button.style.fontWeight = '600';
-        button.style.cursor = 'pointer';
-        button.style.backgroundColor = 'transparent';
-        button.style.color = '#777';
+    names.forEach((name, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = name;
+        btn.style.padding = '10px 20px';
+        btn.style.borderRadius = '20px';
+        btn.style.border = 'none';
+        btn.style.cursor = 'pointer';
+        btn.style.fontWeight = '600';
 
-        if (index === 0) { // 模拟 'All' 按钮的选中状态
-            button.className += ' active';
-            button.style.backgroundColor = '#4facfe';
-            button.style.color = 'white';
-            button.style.borderRadius = '20px';
-            button.style.boxShadow = '0 4px 8px rgba(79, 172, 254, 0.4)';
+        if (i === 0) {
+            btn.style.background = '#4facfe';
+            btn.style.color = 'white';
+            btn.style.boxShadow = '0 4px 8px rgba(79,172,254,0.4)';
         } else {
-            button.style.borderRadius = '20px';
+            btn.style.background = '#eee';
+            btn.style.color = '#777';
         }
 
-        tabs.appendChild(button);
+        tabs.appendChild(btn);
     });
+
     return tabs;
 }
 
-/** 创建章节标题 */
 function createSectionTitle(text, marginTop = '0') {
-    const title = document.createElement('h2');
-    title.className = 'section-title';
-    title.textContent = text;
-    title.style.fontSize = '1.4em';
-    title.style.fontWeight = 'bold';
-    title.style.color = '#333';
-    title.style.margin = `${marginTop} 0 15px 0`;
-    return title;
+    const t = document.createElement('h2');
+    t.textContent = text;
+    t.style.fontSize = '1.4em';
+    t.style.fontWeight = 'bold';
+    t.style.color = '#333';
+    t.style.margin = `${marginTop} 0 15px 0`;
+    return t;
 }
 
-/** 创建卡片横向滚动容器 (Skill Up) */
 function createSkillScrollContainer(data) {
     const container = document.createElement('div');
-    container.className = 'card-scroll-container';
     container.style.display = 'flex';
-    container.style.overflowX = 'scroll'; // 关键：横向滚动
-    container.style.paddingBottom = '15px'; // 避免内容被滚动条遮挡
+    container.style.overflowX = 'scroll';
     container.style.gap = '15px';
-    container.style.maxWidth = '100%';
-    container.style.msOverflowStyle = 'none'; // IE and Edge
-    container.style.scrollbarWidth = 'none'; // Firefox
+    container.style.paddingBottom = '15px';
+    container.insertAdjacentHTML('afterbegin', `<style>.card-scroll-container::-webkit-scrollbar{display:none;}</style>`);
 
-    // 隐藏 Webkit/Blink 滚动条
-    container.insertAdjacentHTML('afterbegin', `<style>.card-scroll-container::-webkit-scrollbar { display: none; }</style>`);
-
-    data.forEach(item => {
-        container.appendChild(createSkillCard(item.title, item.rating, item.img));
-    });
-
-    const nextArrow = document.createElement('div');
-    nextArrow.className = 'next-arrow'; // 模拟截图中的箭头，但在实际滚动中不必要
-    container.appendChild(nextArrow);
+    data.forEach(item => container.appendChild(createSkillCard(item.title, item.rating, item.img)));
 
     return container;
 }
 
-/** 创建单个技能卡片 */
 function createSkillCard(title, rating, imgUrl) {
     const card = document.createElement('div');
-    card.className = 'skill-card';
-    card.style.flexShrink = '0';
     card.style.width = '180px';
-    card.style.backgroundColor = 'white';
+    card.style.background = 'white';
     card.style.borderRadius = '15px';
-    card.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.1)';
+    card.style.boxShadow = '0 6px 15px rgba(0,0,0,0.1)';
     card.style.overflow = 'hidden';
 
-    const imageDiv = document.createElement('div');
-    imageDiv.className = 'skill-card-image';
-    const image = document.createElement('img');
-    image.src = imgUrl;
-    image.alt = title;
-    image.style.width = '100%';
-    image.style.height = '100px';
-    image.style.objectFit = 'cover';
-    imageDiv.appendChild(image);
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.style.width = '100%';
+    img.style.height = '100px';
+    img.style.objectFit = 'cover';
 
     const content = document.createElement('div');
-    content.className = 'skill-card-content';
     content.style.padding = '10px';
 
     const titleElem = document.createElement('h3');
     titleElem.textContent = title;
-    titleElem.style.fontSize = '1.1em';
     titleElem.style.margin = '0 0 5px 0';
-    titleElem.style.whiteSpace = 'nowrap';
-    titleElem.style.overflow = 'hidden';
-    titleElem.style.textOverflow = 'ellipsis';
 
     const difficulty = document.createElement('div');
-    difficulty.className = 'difficulty';
     difficulty.textContent = 'Difficulty';
-    difficulty.style.fontSize = '0.8em';
     difficulty.style.color = '#777';
+    difficulty.style.fontSize = '0.8em';
 
     const ratingContainer = document.createElement('div');
-    ratingContainer.className = 'rating';
     ratingContainer.style.display = 'flex';
     ratingContainer.style.justifyContent = 'space-between';
     ratingContainer.style.alignItems = 'center';
-    ratingContainer.style.marginTop = '5px';
 
-    const starContainer = document.createElement('div');
-    starContainer.style.color = '#ffd700'; // 金色星星
+    const stars = document.createElement('div');
+    stars.style.color = '#ffd700';
     for (let i = 0; i < 5; i++) {
-        const star = document.createElement('i');
-        star.className = `bx ${i < rating ? 'bxs-star' : 'bx-star'}`;
-        star.style.fontSize = '1em';
-        starContainer.appendChild(star);
+        const s = document.createElement('i');
+        s.className = `bx ${i < rating ? 'bxs-star' : 'bx-star'}`;
+        stars.appendChild(s);
     }
 
-    const addButton = createPlusButton();
-
-    ratingContainer.appendChild(starContainer);
-    ratingContainer.appendChild(addButton);
-
+    ratingContainer.appendChild(stars);
+    ratingContainer.appendChild(createPlusButton());
     content.appendChild(titleElem);
     content.appendChild(difficulty);
     content.appendChild(ratingContainer);
-    card.appendChild(imageDiv);
-    card.appendChild(content);
 
+    card.appendChild(img);
+    card.appendChild(content);
     return card;
 }
 
-/** 创建卡片横向滚动容器 (People) */
 function createPeopleScrollContainer(data) {
     const container = document.createElement('div');
-    container.className = 'card-scroll-container';
     container.style.display = 'flex';
-    container.style.overflowX = 'scroll'; // 关键：横向滚动
-    container.style.paddingBottom = '15px';
+    container.style.overflowX = 'scroll';
     container.style.gap = '15px';
-    container.style.msOverflowStyle = 'none';
-    container.style.scrollbarWidth = 'none';
-    container.insertAdjacentHTML('afterbegin', `<style>.card-scroll-container::-webkit-scrollbar { display: none; }</style>`);
+    container.style.paddingBottom = '15px';
+    container.insertAdjacentHTML('afterbegin', `<style>.card-scroll-container::-webkit-scrollbar{display:none;}</style>`);
 
-    data.forEach(item => {
-        container.appendChild(createPeopleCard(item.name, item.mutuals, item.img));
-    });
+    data.forEach(item => container.appendChild(createPeopleCard(item.name, item.mutuals, item.img)));
 
     return container;
 }
 
-/** 创建单个好友推荐卡片 */
 function createPeopleCard(name, mutuals, imgUrl) {
     const card = document.createElement('div');
-    card.className = 'people-card';
-    card.style.flexShrink = '0';
     card.style.width = '160px';
     card.style.height = '200px';
-    card.style.backgroundColor = 'white';
-    card.style.borderRadius = '15px';
-    card.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.1)';
-    card.style.overflow = 'hidden';
     card.style.position = 'relative';
+    card.style.background = 'white';
+    card.style.borderRadius = '15px';
+    card.style.overflow = 'hidden';
+    card.style.boxShadow = '0 6px 15px rgba(0,0,0,0.1)';
 
-    const image = document.createElement('img');
-    image.className = 'people-card-bg-image';
-    image.src = imgUrl;
-    image.alt = name;
-    image.style.width = '100%';
-    image.style.height = '100%';
-    image.style.objectFit = 'cover';
-    card.appendChild(image);
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
 
     const content = document.createElement('div');
-    content.className = 'people-card-content';
     content.style.position = 'absolute';
     content.style.bottom = '0';
-    content.style.left = '0';
     content.style.width = '100%';
     content.style.padding = '10px';
-    // 渐变背景让文字清晰可见
-    content.style.background = 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)';
+    content.style.background = 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))';
     content.style.color = 'white';
 
     const nameElem = document.createElement('h3');
     nameElem.textContent = name;
-    nameElem.style.fontSize = '1.2em';
     nameElem.style.margin = '0 0 5px 0';
-    
-    const infoLine = document.createElement('p');
-    infoLine.style.display = 'flex';
-    infoLine.style.justifyContent = 'space-between';
-    infoLine.style.alignItems = 'center';
-    infoLine.style.margin = '0';
-    
-    const mutualsSpan = document.createElement('span');
-    mutualsSpan.textContent = `${mutuals} Mutuals`;
-    mutualsSpan.style.fontSize = '0.9em';
 
-    const addButton = createPlusButton(); // 复用 "+" 按钮
+    const line = document.createElement('p');
+    line.style.display = 'flex';
+    line.style.justifyContent = 'space-between';
+    line.style.margin = '0';
 
-    infoLine.appendChild(mutualsSpan);
-    infoLine.appendChild(addButton);
-    
+    const mut = document.createElement('span');
+    mut.textContent = `${mutuals} Mutuals`;
+
+    line.appendChild(mut);
+    line.appendChild(createPlusButton());
+
     content.appendChild(nameElem);
-    content.appendChild(infoLine);
-    card.appendChild(content);
+    content.appendChild(line);
 
+    card.appendChild(img);
+    card.appendChild(content);
     return card;
 }
 
-/** 创建蓝色的 "+" 按钮 */
 function createPlusButton() {
-    const addButton = document.createElement('div');
-    addButton.className = 'add-button';
-    addButton.style.width = '25px';
-    addButton.style.height = '25px';
-    addButton.style.backgroundColor = '#4facfe';
-    addButton.style.color = 'white';
-    addButton.style.borderRadius = '50%';
-    addButton.style.fontSize = '1.2em';
-    addButton.style.display = 'flex';
-    addButton.style.justifyContent = 'center';
-    addButton.style.alignItems = 'center';
-    addButton.style.cursor = 'pointer';
+    const btn = document.createElement('div');
+    btn.style.width = '25px';
+    btn.style.height = '25px';
+    btn.style.background = '#4facfe';
+    btn.style.borderRadius = '50%';
+    btn.style.display = 'flex';
+    btn.style.justifyContent = 'center';
+    btn.style.alignItems = 'center';
+    btn.style.color = 'white';
 
     const icon = document.createElement('i');
     icon.className = 'bx bx-plus';
-    addButton.appendChild(icon);
-    return addButton;
+
+    btn.appendChild(icon);
+    return btn;
 }
